@@ -19,6 +19,7 @@ export interface MessagePickupLiveSessionRemovedEvent extends BaseEvent {
   type: typeof MessagePickupEventTypes.LiveSessionRemoved
   payload: {
     session: MessagePickupSession
+    type?: string // Optional type: Websocket or Http
   }
 }
 

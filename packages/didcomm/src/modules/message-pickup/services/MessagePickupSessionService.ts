@@ -35,7 +35,8 @@ export class MessagePickupSessionService {
       .subscribe({
         next: (e) => {
           const connectionId = e.payload.session.connectionId
-          if (connectionId) this.removeLiveSession(agentContext, { connectionId })
+          const type = e.payload.session.type
+          if (connectionId) this.removeLiveSession(agentContext, { connectionId, type })
         },
       })
   }
@@ -82,7 +83,7 @@ export class MessagePickupSessionService {
     })
   }
 
-  public removeLiveSession(agentContext: AgentContext, options: { connectionId: string }) {
+  public removeLiveSession(agentContext: AgentContext, options: { connectionId: string, type?: string }) {
     const itemIndex = this.sessions.findIndex((session) => session.connectionId === options.connectionId)
 
     if (itemIndex > -1) {
@@ -93,6 +94,7 @@ export class MessagePickupSessionService {
         type: MessagePickupEventTypes.LiveSessionRemoved,
         payload: {
           session,
+          type: options.type,
         },
       })
     }
